@@ -1,0 +1,43 @@
+* { box-sizing: border-box; }
+:root {
+  font-family: "Arial Rounded MT Bold", "Hiragino Maru Gothic ProN", "Yu Gothic", sans-serif;
+  color: #24324a;
+  background: #f4f8ff;
+}
+body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 22px; }
+.app { width: min(100%, 520px); text-align: center; }
+.eyebrow { color: #6381ad; font-size: 14px; font-weight: 700; letter-spacing: .08em; }
+h1 { margin: 8px 0 4px; font-size: clamp(30px, 8vw, 46px); }
+h1 span { color: #3978d8; }
+.intro { margin: 0 0 22px; color: #73819a; }
+.timer-card {
+  background: white; border-radius: 30px; padding: 28px 22px 22px;
+  box-shadow: 0 14px 35px #284b7917; border: 1px solid #e5edfa;
+}
+.remaining-label { color: #8290a6; font-weight: 700; font-size: 18px; }
+.number-wrap { display: flex; justify-content: center; align-items: baseline; gap: 8px; margin: 4px 0 14px; }
+.number { font-size: clamp(90px, 24vw, 150px); line-height: 1.1; font-weight: 900; letter-spacing: -.06em; color: #286bd0; font-variant-numeric: tabular-nums; }
+.unit { font-size: 30px; font-weight: 800; color: #286bd0; }
+.progress-track { height: 14px; background: #eaf0f8; border-radius: 99px; overflow: hidden; }
+.progress { height: 100%; width: 100%; background: linear-gradient(90deg, #71c8b1, #4b8ee8); border-radius: inherit; transition: width .15s linear; }
+.status { margin: 16px 0 0; min-height: 28px; color: #52647f; font-size: 19px; font-weight: 700; }
+.settings { margin: 24px 0 18px; }
+.settings label { display: block; font-weight: 800; margin-bottom: 8px; }
+.duration-row { display: flex; align-items: center; justify-content: center; gap: 9px; }
+input[type=number] { width: 145px; padding: 11px; border: 2px solid #dce6f4; border-radius: 12px; font: inherit; font-size: 20px; text-align: center; color: #24324a; }
+.duration-row > span { font-weight: 800; }
+button { cursor: pointer; border: 0; border-radius: 13px; font: inherit; font-weight: 800; transition: transform .08s, opacity .15s; }
+button:active { transform: scale(.97); }
+button:disabled { opacity: .4; cursor: not-allowed; }
+.small-button { padding: 12px 16px; color: #315f9f; background: #e7f0ff; }
+.presets { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.presets button { padding: 9px 13px; background: #edf3fc; color: #526b8e; }
+.controls { display: grid; gap: 10px; }
+.main-button { padding: 17px; color: white; background: #3978d8; font-size: 23px; box-shadow: 0 7px 0 #2459a7; }
+.main-button:active { box-shadow: 0 3px 0 #2459a7; transform: translateY(4px); }
+.secondary-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.secondary-controls button { padding: 13px 8px; background: #e7edf6; color: #52647f; }
+.voice-option { display: flex; justify-content: center; align-items: center; gap: 9px; margin: 22px 0; color: #52647f; font-weight: 700; }
+.voice-option input { width: 19px; height: 19px; accent-color: #3978d8; }
+footer { color: #98a3b4; font-size: 12px; line-height: 1.6; }
+@media (max-width: 380px) { body { padding: 14px; } .timer-card { padding: 22px 14px 18px; } }

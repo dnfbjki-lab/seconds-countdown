@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f8ff">
+  <title>あと何秒？｜秒でわかるカウントダウン</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div class="eyebrow">⏳ じかんの れんしゅう</div>
+      <h1>あと <span>なんびょう？</span></h1>
+      <p class="intro">数字が 0 になるまで かぞえてみよう！</p>
+    </header>
+
+    <section class="timer-card" aria-live="polite">
+      <div class="remaining-label">のこり</div>
+      <div class="number-wrap">
+        <span id="remaining" class="number">300</span>
+        <span class="unit">秒</span>
+      </div>
+      <div class="progress-track"><div id="progress" class="progress"></div></div>
+      <p id="status" class="status">スタートを おしてね</p>
+    </section>
+
+    <section class="settings">
+      <label for="duration">なんびょう はかる？</label>
+      <div class="duration-row">
+        <input id="duration" type="number" min="1" max="3600" step="1" value="300" inputmode="numeric">
+        <span>秒</span>
+        <button id="setButton" class="small-button" type="button">セット</button>
+      </div>
+      <div class="presets" aria-label="時間のえらびかた">
+        <button type="button" data-seconds="60">60秒</button>
+        <button type="button" data-seconds="180">180秒</button>
+        <button type="button" data-seconds="300">300秒</button>
+        <button type="button" data-seconds="600">600秒</button>
+      </div>
+    </section>
+
+    <section class="controls">
+      <button id="startButton" class="main-button" type="button">▶ スタート</button>
+      <div class="secondary-controls">
+        <button id="pauseButton" type="button" disabled>⏸ おやすみ</button>
+        <button id="resetButton" type="button">↻ はじめから</button>
+      </div>
+    </section>
+
+    <label class="voice-option">
+      <input id="voiceEnabled" type="checkbox" checked>
+      <span>30秒ごとに こえで おしらせする</span>
+    </label>
+
+    <footer>こえが きこえないときは、音量とブラウザの設定を かくにんしてね。</footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
