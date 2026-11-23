@@ -41,3 +41,9 @@ button:disabled { opacity: .4; cursor: not-allowed; }
 .voice-option input { width: 19px; height: 19px; accent-color: #3978d8; }
 footer { color: #98a3b4; font-size: 12px; line-height: 1.6; }
 @media (max-width: 380px) { body { padding: 14px; } .timer-card { padding: 22px 14px 18px; } }
+
+.voice-settings { margin: 22px 0; }
+.voice-settings > label { display: block; margin-bottom: 9px; font-weight: 800; color: #52647f; }
+.interval-row { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; }
+.interval-row select { min-width: 130px; padding: 11px 14px; border: 2px solid #dce6f4; border-radius: 12px; background: white; color: #24324a; font: inherit; font-weight: 800; }
+.interval-row .voice-option { margin: 0; }

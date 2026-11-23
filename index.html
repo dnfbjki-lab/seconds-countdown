@@ -48,12 +48,21 @@
       </div>
     </section>
 
-    <label class="voice-option">
-      <input id="voiceEnabled" type="checkbox" checked>
-      <span>30秒ごとに こえで おしらせする</span>
-    </label>
+    <section class="voice-settings">
+      <label for="announceInterval">なんびょうごとに こえで おしらせする？</label>
+      <div class="interval-row">
+        <select id="announceInterval">
+          <option value="30" selected>30秒ごと</option>
+          <option value="60">60秒ごと</option>
+        </select>
+        <label class="voice-option">
+          <input id="voiceEnabled" type="checkbox" checked>
+          <span>こえで おしらせする</span>
+        </label>
+      </div>
+    </section>
 
-    <footer>こえが きこえないときは、音量とブラウザの設定を かくにんしてね。</footer>
+    <footer>カウントダウン中は、対応ブラウザで画面が消えないようにします。<br>こえが きこえないときは、音量とブラウザの設定を かくにんしてね。</footer>
   </main>
   <script src="script.js"></script>
 </body>

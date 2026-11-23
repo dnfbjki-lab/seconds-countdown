@@ -7,6 +7,7 @@ const pauseButton = document.getElementById("pauseButton");
 const resetButton = document.getElementById("resetButton");
 const setButton = document.getElementById("setButton");
 const voiceEnabled = document.getElementById("voiceEnabled");
+const announceIntervalInput = document.getElementById("announceInterval");
 
 let totalSeconds = 300;
 let remainingSeconds = 300;
@@ -14,6 +15,40 @@ let running = false;
 let endTime = 0;
 let intervalId = null;
 let lastAnnounced = null;
+let wakeLock = null;
+
+// 対応ブラウザでは、カウントダウン中に画面が消えないようにする
+async function keepScreenAwake() {
+  if (!("wakeLock" in navigator) || document.visibilityState !== "visible") return;
+  try {
+    if (wakeLock && !wakeLock.released) return;
+    wakeLock = await navigator.wakeLock.request("screen");
+    wakeLock.addEventListener("release", () => {
+      wakeLock = null;
+    }, { once: true });
+  } catch (error) {
+    // 省電力設定やブラウザの制限で取得できない場合も、タイマー自体は動作させる
+    console.info("画面の点灯維持は利用できません:", error);
+  }
+}
+
+async function releaseScreenWakeLock() {
+  if (!wakeLock) return;
+  const lock = wakeLock;
+  wakeLock = null;
+  try {
+    await lock.release();
+  } catch (error) {
+    console.info("画面キープの解除に失敗しました:", error);
+  }
+}
+
+// 画面復帰時、カウントダウン中なら画面キープを取り直す
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible" && running) {
+    keepScreenAwake();
+  }
+});
 
 function speak(message) {
   if (!voiceEnabled.checked || !("speechSynthesis" in window)) return;
@@ -43,8 +78,15 @@ function tick() {
     render();
   }
 
-  // 30秒ごとの節目で読み上げる（開始直後の数値は読み上げない）
-  if (remainingSeconds > 0 && remainingSeconds % 30 === 0 && remainingSeconds !== lastAnnounced) {
+  // 経過時間が選択した間隔に達したタイミングで読み上げる
+  const announceInterval = Number(announceIntervalInput.value);
+  const elapsedSeconds = totalSeconds - remainingSeconds;
+  if (
+    remainingSeconds > 0 &&
+    elapsedSeconds > 0 &&
+    elapsedSeconds % announceInterval === 0 &&
+    remainingSeconds !== lastAnnounced
+  ) {
     lastAnnounced = remainingSeconds;
     speak(`あと${remainingSeconds}秒だよ`);
     statusEl.textContent = `あと ${remainingSeconds} 秒だよ！`;
@@ -59,6 +101,7 @@ function tick() {
     startButton.textContent = "▶ もういちど";
     pauseButton.disabled = true;
     speak("おしまい！ よくできました！");
+    releaseScreenWakeLock();
   }
 }
 
@@ -66,6 +109,7 @@ function start() {
   if (running) return;
   if (remainingSeconds <= 0) remainingSeconds = totalSeconds;
   running = true;
+  keepScreenAwake();
   endTime = Date.now() + remainingSeconds * 1000;
   statusEl.textContent = "カウントダウン中！";
   startButton.textContent = "▶ カウント中";
@@ -80,6 +124,7 @@ function pause() {
   tick();
   running = false;
   stopTicker();
+  releaseScreenWakeLock();
   statusEl.textContent = "いったん おやすみ";
   startButton.textContent = "▶ つづきから";
   pauseButton.disabled = true;
@@ -88,6 +133,7 @@ function pause() {
 function reset() {
   running = false;
   stopTicker();
+  releaseScreenWakeLock();
   if ("speechSynthesis" in window) window.speechSynthesis.cancel();
   remainingSeconds = totalSeconds;
   lastAnnounced = null;
